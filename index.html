@@ -108,6 +108,15 @@
     animation:pulse 2.4s ease-out infinite;
     flex:none;
   }
+  .posts{margin-top:clamp(30px,6vw,46px)}
+  .posts-h{font-family:var(--mono);font-size:11.5px;letter-spacing:0.2em;text-transform:uppercase;color:#5A7479;margin-bottom:14px}
+  .post{display:flex;align-items:center;gap:14px;padding:16px 0;border-top:1px solid rgba(124,154,158,0.16);text-decoration:none;transition:padding-left 0.2s ease}
+  .post:hover,.post:focus-visible{padding-left:6px}
+  .post-meta{font-family:var(--mono);font-size:11.5px;color:var(--cyan);letter-spacing:0.04em;white-space:nowrap;flex:none}
+  .post-title{font-family:var(--kr);font-size:15px;color:var(--ink);line-height:1.4;flex:1}
+  .post:hover .post-title{color:var(--cyan)}
+  .post-arrow{font-family:var(--mono);color:#5A7479;flex:none}
+  .post:hover .post-arrow{color:var(--cyan)}
   footer{
     margin-top:clamp(40px,9vw,80px);
     display:flex;
@@ -161,9 +170,13 @@
     <p class="eyebrow">TOEIC × Quant × AI</p>
     <h1>AI로 <em>토익 950</em>과 퀀트 투자를 파고드는 기록</h1>
 
-    <div class="status">
-      <span class="pulse"></span>
-      <span>아직 글 없음 — 첫 기록 준비 중</span>
+    <div class="posts">
+      <p class="posts-h">기록</p>
+      <a class="post" href="./haa-backtest.html">
+        <span class="post-meta">2026.06.26 · Quant</span>
+        <span class="post-title">같은 수익, 절반의 낙폭 — HAA-Simple 백테스트</span>
+        <span class="post-arrow">→</span>
+      </a>
     </div>
 
     <footer>
