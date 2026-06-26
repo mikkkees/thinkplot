@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>thinkplotlab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1418;
+    --grid:rgba(91,208,198,0.05);
+    --ink:#E8F0EE;
+    --muted:#7C9A9E;
+    --amber:#E9A14B;
+    --cyan:#5BD0C6;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --sans:'IBM Plex Sans','IBM Plex Sans KR',system-ui,sans-serif;
+    --kr:'IBM Plex Sans KR','IBM Plex Sans',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    background-image:
+      linear-gradient(var(--grid) 1px,transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:34px 34px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    flex:1;
+    width:100%;
+    max-width:880px;
+    margin:0 auto;
+    padding:clamp(28px,6vw,64px) clamp(22px,5vw,48px);
+    display:flex;
+    flex-direction:column;
+  }
+  header{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:auto;
+  }
+  .mark{
+    font-family:var(--mono);
+    font-weight:500;
+    font-size:15px;
+    letter-spacing:0.02em;
+    color:var(--ink);
+  }
+  .mark b{color:var(--cyan);font-weight:500}
+  .tag-mini{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .plot{
+    width:100%;
+    margin:clamp(36px,8vw,72px) 0 clamp(28px,5vw,40px);
+  }
+  .plot svg{width:100%;height:auto;display:block;overflow:visible}
+  .line{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .line-a{stroke:var(--amber)}
+  .line-b{stroke:var(--cyan);opacity:0.85;stroke-width:2}
+  .dot{filter:drop-shadow(0 0 5px currentColor)}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:clamp(11.5px,2.4vw,13px);
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--cyan);
+    margin-bottom:18px;
+  }
+  h1{
+    font-family:var(--kr);
+    font-weight:500;
+    font-size:clamp(27px,6.4vw,52px);
+    line-height:1.32;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    max-width:15ch;
+  }
+  h1 em{font-style:normal;color:var(--amber)}
+  .status{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:clamp(28px,6vw,44px);
+    font-family:var(--mono);
+    font-size:13.5px;
+    color:var(--muted);
+  }
+  .pulse{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--amber);
+    box-shadow:0 0 0 0 rgba(233,161,75,0.5);
+    animation:pulse 2.4s ease-out infinite;
+    flex:none;
+  }
+  footer{
+    margin-top:clamp(40px,9vw,80px);
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px 18px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--muted);
+  }
+  footer .sep{color:rgba(124,154,158,0.4)}
+  footer a{color:var(--muted);text-decoration:none;border-bottom:1px solid rgba(124,154,158,0.3);padding-bottom:1px}
+  footer a:hover,footer a:focus-visible{color:var(--cyan);border-color:var(--cyan)}
+  a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+  .line{stroke-dasharray:2400;stroke-dashoffset:2400;animation:draw 2.2s cubic-bezier(0.22,0.61,0.36,1) forwards}
+  .line-b{animation-delay:0.25s}
+  .dot{opacity:0;animation:fade 0.5s ease forwards}
+  .dot-a{animation-delay:2.0s}
+  .dot-b{animation-delay:2.3s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fade{to{opacity:1}}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(233,161,75,0.45)}
+    70%{box-shadow:0 0 0 9px rgba(233,161,75,0)}
+    100%{box-shadow:0 0 0 0 rgba(233,161,75,0)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .line{stroke-dashoffset:0;animation:none}
+    .dot{opacity:1;animation:none}
+    .pulse{animation:none}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="mark">thinkplot<b>lab</b></span>
+      <span class="tag-mini">experiments in public</span>
+    </header>
+
+    <div class="plot" aria-hidden="true">
+      <svg viewBox="0 0 1000 300" role="img">
+        <path class="line line-a" d="M10 252 L 85 232 L 158 246 L 230 202 L 312 216 L 392 172 L 470 186 L 548 142 L 626 122 L 704 136 L 782 92 L 860 71 L 938 56 L 990 42"/>
+        <path class="line line-b" d="M10 256 L 85 249 L 158 231 L 230 241 L 312 201 L 392 221 L 470 196 L 548 206 L 626 176 L 704 191 L 782 161 L 860 176 L 938 151 L 990 132"/>
+        <circle class="dot dot-b" cx="990" cy="132" r="5" fill="#5BD0C6" style="color:#5BD0C6"/>
+        <circle class="dot dot-a" cx="990" cy="42" r="5.5" fill="#E9A14B" style="color:#E9A14B"/>
+      </svg>
+    </div>
+
+    <p class="eyebrow">TOEIC × Quant × AI</p>
+    <h1>AI로 <em>토익 950</em>과 퀀트 투자를 파고드는 기록</h1>
+
+    <div class="status">
+      <span class="pulse"></span>
+      <span>아직 글 없음 — 첫 기록 준비 중</span>
+    </div>
+
+    <footer>
+      <span>building in public</span>
+      <span class="sep">/</span>
+      <span>2026</span>
+      <span class="sep">/</span>
+      <a href="https://github.com/mikkkees">github</a>
+    </footer>
+  </div>
+</body>
+</html>
