@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>thinkplotlab</title>
+<meta name="description" content="thinkplotlab — public experiments in quant investing, economics, and history, built with AI.">
+<meta property="og:title" content="thinkplotlab">
+<meta property="og:description" content="Public experiments in quant investing, economics, and history, built with AI.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
@@ -15,12 +19,13 @@
     --muted:#7C9A9E;
     --amber:#E9A14B;
     --cyan:#5BD0C6;
+    --line-soft:rgba(124,154,158,0.16);
     --mono:'IBM Plex Mono',ui-monospace,monospace;
     --sans:'IBM Plex Sans','IBM Plex Sans KR',system-ui,sans-serif;
     --kr:'IBM Plex Sans KR','IBM Plex Sans',system-ui,sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
   body{
     background:var(--bg);
     color:var(--ink);
@@ -38,17 +43,21 @@
   .wrap{
     flex:1;
     width:100%;
-    max-width:880px;
+    max-width:920px;
     margin:0 auto;
-    padding:clamp(28px,6vw,64px) clamp(22px,5vw,48px);
+    padding:clamp(24px,5vw,52px) clamp(22px,5vw,48px) clamp(28px,6vw,64px);
     display:flex;
     flex-direction:column;
   }
-  header{
+
+  /* ---------- top nav ---------- */
+  nav{
     display:flex;
-    align-items:baseline;
-    gap:12px;
-    margin-bottom:auto;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    padding-bottom:clamp(20px,5vw,34px);
+    border-bottom:1px solid var(--line-soft);
   }
   .mark{
     font-family:var(--mono);
@@ -56,18 +65,32 @@
     font-size:15px;
     letter-spacing:0.02em;
     color:var(--ink);
+    text-decoration:none;
+    margin-right:auto;
   }
   .mark b{color:var(--cyan);font-weight:500}
-  .tag-mini{
-    font-family:var(--mono);
-    font-size:11.5px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--muted);
+  .nav-links{
+    display:flex;
+    gap:clamp(14px,3vw,26px);
+    align-items:baseline;
   }
+  .nav-links a{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    color:var(--muted);
+    text-decoration:none;
+    padding-bottom:2px;
+    border-bottom:1px solid transparent;
+    transition:color 0.18s ease,border-color 0.18s ease;
+  }
+  .nav-links a:hover,.nav-links a:focus-visible{color:var(--cyan);border-color:var(--cyan)}
+
+  /* ---------- hero ---------- */
+  .hero{margin-top:clamp(30px,7vw,60px)}
   .plot{
     width:100%;
-    margin:clamp(36px,8vw,72px) 0 clamp(28px,5vw,40px);
+    margin:0 0 clamp(28px,5vw,40px);
   }
   .plot svg{width:100%;height:auto;display:block;overflow:visible}
   .line{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
@@ -83,22 +106,22 @@
     margin-bottom:18px;
   }
   h1{
-    font-family:var(--kr);
-    font-weight:500;
-    font-size:clamp(27px,6.4vw,52px);
-    line-height:1.32;
-    letter-spacing:-0.01em;
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:clamp(26px,6vw,50px);
+    line-height:1.28;
+    letter-spacing:-0.015em;
     color:var(--ink);
-    max-width:15ch;
+    max-width:17ch;
   }
   h1 em{font-style:normal;color:var(--amber)}
   .status{
     display:flex;
     align-items:center;
     gap:10px;
-    margin-top:clamp(28px,6vw,44px);
+    margin-top:clamp(24px,5vw,36px);
     font-family:var(--mono);
-    font-size:13.5px;
+    font-size:13px;
     color:var(--muted);
   }
   .pulse{
@@ -108,17 +131,111 @@
     animation:pulse 2.4s ease-out infinite;
     flex:none;
   }
-  .posts{margin-top:clamp(30px,6vw,46px)}
-  .posts-h{font-family:var(--mono);font-size:11.5px;letter-spacing:0.2em;text-transform:uppercase;color:#5A7479;margin-bottom:14px}
-  .post{display:flex;align-items:center;gap:14px;padding:16px 0;border-top:1px solid rgba(124,154,158,0.16);text-decoration:none;transition:padding-left 0.2s ease}
+
+  /* ---------- section shell ---------- */
+  .section{margin-top:clamp(46px,9vw,84px)}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:clamp(18px,3vw,24px);
+  }
+  .section-label{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:#5A7479;
+  }
+  .section-rule{
+    flex:1;
+    height:1px;
+    background:var(--line-soft);
+  }
+  .section-count{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:#5A7479;
+    letter-spacing:0.04em;
+  }
+
+  /* ---------- category grid ---------- */
+  .cats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:clamp(12px,2vw,16px);
+  }
+  .cat{
+    display:block;
+    text-decoration:none;
+    padding:clamp(18px,3vw,22px);
+    border:1px solid var(--line-soft);
+    border-radius:2px;
+    background:rgba(91,208,198,0.02);
+    transition:border-color 0.2s ease,transform 0.2s ease,background 0.2s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .cat::before{
+    content:'';
+    position:absolute;
+    left:0;top:0;bottom:0;
+    width:2px;
+    background:var(--accent,var(--cyan));
+    opacity:0.55;
+    transition:opacity 0.2s ease,width 0.2s ease;
+  }
+  .cat:hover,.cat:focus-visible{
+    border-color:rgba(124,154,158,0.4);
+    transform:translateY(-2px);
+    background:rgba(91,208,198,0.05);
+  }
+  .cat:hover::before,.cat:focus-visible::before{opacity:1;width:3px}
+  .cat-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent,var(--cyan));
+    display:block;
+    margin-bottom:10px;
+  }
+  .cat-name{
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:16px;
+    color:var(--ink);
+    display:block;
+    margin-bottom:6px;
+  }
+  .cat-desc{
+    font-family:var(--sans);
+    font-size:12.5px;
+    line-height:1.55;
+    color:var(--muted);
+  }
+
+  /* ---------- post list ---------- */
+  .post{display:flex;align-items:center;gap:14px;padding:16px 0;border-top:1px solid var(--line-soft);text-decoration:none;transition:padding-left 0.2s ease}
+  .post:first-of-type{border-top:none}
   .post:hover,.post:focus-visible{padding-left:6px}
-  .post-meta{font-family:var(--mono);font-size:11.5px;color:var(--cyan);letter-spacing:0.04em;white-space:nowrap;flex:none}
-  .post-title{font-family:var(--kr);font-size:15px;color:var(--ink);line-height:1.4;flex:1}
-  .post:hover .post-title{color:var(--cyan)}
+  .post-meta{font-family:var(--mono);font-size:11.5px;color:var(--cyan);letter-spacing:0.04em;white-space:nowrap;flex:none;min-width:150px}
+  .post-title{font-family:var(--sans);font-size:15px;color:var(--ink);line-height:1.4;flex:1}
+  .post:hover .post-title,.post:focus-visible .post-title{color:var(--cyan)}
   .post-arrow{font-family:var(--mono);color:#5A7479;flex:none}
-  .post:hover .post-arrow{color:var(--cyan)}
+  .post:hover .post-arrow,.post:focus-visible .post-arrow{color:var(--cyan)}
+  .placeholder{font-family:var(--sans);font-size:13.5px;color:var(--muted);line-height:1.6}
+  @media (max-width:520px){
+    .post{flex-wrap:wrap;gap:4px 14px}
+    .post-meta{min-width:0}
+    .post-arrow{margin-left:auto}
+  }
+
+  /* ---------- footer ---------- */
   footer{
-    margin-top:clamp(40px,9vw,80px);
+    margin-top:clamp(52px,10vw,96px);
+    padding-top:clamp(22px,4vw,30px);
+    border-top:1px solid var(--line-soft);
     display:flex;
     flex-wrap:wrap;
     align-items:center;
@@ -132,6 +249,7 @@
   footer a:hover,footer a:focus-visible{color:var(--cyan);border-color:var(--cyan)}
   a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 
+  /* ---------- hero chart animation ---------- */
   .line{stroke-dasharray:2400;stroke-dashoffset:2400;animation:draw 2.2s cubic-bezier(0.22,0.61,0.36,1) forwards}
   .line-b{animation-delay:0.25s}
   .dot{opacity:0;animation:fade 0.5s ease forwards}
@@ -148,36 +266,131 @@
     .line{stroke-dashoffset:0;animation:none}
     .dot{opacity:1;animation:none}
     .pulse{animation:none}
+    html{scroll-behavior:auto}
   }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <span class="mark">thinkplot<b>lab</b></span>
-      <span class="tag-mini">experiments in public</span>
-    </header>
+    <nav>
+      <a class="mark" href="./index.html">thinkplot<b>lab</b></a>
+      <div class="nav-links">
+        <a href="#quant">Quant</a>
+        <a href="#economy">Economy</a>
+        <a href="#history">History</a>
+        <a href="#toeic">TOEIC</a>
+        <a href="#notes">Notes</a>
+        <a href="https://github.com/mikkkees">GitHub</a>
+      </div>
+    </nav>
 
-    <div class="plot" aria-hidden="true">
-      <svg viewBox="0 0 1000 300" role="img">
-        <path class="line line-a" d="M10 252 L 85 232 L 158 246 L 230 202 L 312 216 L 392 172 L 470 186 L 548 142 L 626 122 L 704 136 L 782 92 L 860 71 L 938 56 L 990 42"/>
-        <path class="line line-b" d="M10 256 L 85 249 L 158 231 L 230 241 L 312 201 L 392 221 L 470 196 L 548 206 L 626 176 L 704 191 L 782 161 L 860 176 L 938 151 L 990 132"/>
-        <circle class="dot dot-b" cx="990" cy="132" r="5" fill="#5BD0C6" style="color:#5BD0C6"/>
-        <circle class="dot dot-a" cx="990" cy="42" r="5.5" fill="#E9A14B" style="color:#E9A14B"/>
-      </svg>
-    </div>
+    <section class="hero">
+      <div class="plot" aria-hidden="true">
+        <svg viewBox="0 0 1000 300" role="img">
+          <path class="line line-a" d="M10 252 L 85 232 L 158 246 L 230 202 L 312 216 L 392 172 L 470 186 L 548 142 L 626 122 L 704 136 L 782 92 L 860 71 L 938 56 L 990 42"/>
+          <path class="line line-b" d="M10 256 L 85 249 L 158 231 L 230 241 L 312 201 L 392 221 L 470 196 L 548 206 L 626 176 L 704 191 L 782 161 L 860 176 L 938 151 L 990 132"/>
+          <circle class="dot dot-b" cx="990" cy="132" r="5" fill="#5BD0C6" style="color:#5BD0C6"/>
+          <circle class="dot dot-a" cx="990" cy="42" r="5.5" fill="#E9A14B" style="color:#E9A14B"/>
+        </svg>
+      </div>
 
-    <p class="eyebrow">TOEIC × Quant × AI</p>
-    <h1>AI로 <em>토익 950</em>과 퀀트 투자를 파고드는 기록</h1>
+      <p class="eyebrow">Quant × Economics × History</p>
+      <h1>Digging into <em>quant</em>, economics, and history — in public, with AI.</h1>
 
-    <div class="posts">
-      <p class="posts-h">기록</p>
+      <div class="status">
+        <span class="pulse" aria-hidden="true"></span>
+        <span>building in public · the archive keeps growing</span>
+      </div>
+    </section>
+
+    <!-- ============ Topics ============ -->
+    <section class="section" id="topics">
+      <div class="section-head">
+        <span class="section-label">Topics</span>
+        <span class="section-rule"></span>
+      </div>
+      <div class="cats">
+        <a class="cat" href="#quant" style="--accent:var(--amber)">
+          <span class="cat-tag">Quant</span>
+          <span class="cat-name">Quant Investing</span>
+          <span class="cat-desc">Asset allocation, backtests, and automated trading systems.</span>
+        </a>
+        <a class="cat" href="#economy" style="--accent:var(--cyan)">
+          <span class="cat-tag">Economy</span>
+          <span class="cat-name">Economics</span>
+          <span class="cat-desc">Macro indicators, markets, and how the money world works.</span>
+        </a>
+        <a class="cat" href="#history" style="--accent:var(--amber)">
+          <span class="cat-tag">History</span>
+          <span class="cat-name">History</span>
+          <span class="cat-desc">Timelines, maps, and notes on world civilizations.</span>
+        </a>
+        <a class="cat" href="#toeic" style="--accent:var(--cyan)">
+          <span class="cat-tag">TOEIC</span>
+          <span class="cat-name">TOEIC 950</span>
+          <span class="cat-desc">Part 5 grammar reflexes, Part 7 paraphrase drills.</span>
+        </a>
+        <a class="cat" href="#notes" style="--accent:var(--amber)">
+          <span class="cat-tag">Notes</span>
+          <span class="cat-name">Notes</span>
+          <span class="cat-desc">Short thoughts, tools, and what I'm reading.</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ Quant ============ -->
+    <section class="section" id="quant">
+      <div class="section-head">
+        <span class="section-label">Quant · Investing</span>
+        <span class="section-rule"></span>
+        <span class="section-count">1</span>
+      </div>
       <a class="post" href="./haa-backtest.html">
         <span class="post-meta">2026.06.26 · Quant</span>
-        <span class="post-title">같은 수익, 절반의 낙폭 — HAA-Simple 백테스트</span>
+        <span class="post-title">Same return, half the drawdown — HAA-Simple backtest</span>
         <span class="post-arrow">→</span>
       </a>
-    </div>
+    </section>
+
+    <!-- ============ Economy ============ -->
+    <section class="section" id="economy">
+      <div class="section-head">
+        <span class="section-label">Economy · Markets &amp; Macro</span>
+        <span class="section-rule"></span>
+        <span class="section-count">0</span>
+      </div>
+      <p class="placeholder">Coming soon — macro indicators, market notes, and economic data.</p>
+    </section>
+
+    <!-- ============ History ============ -->
+    <section class="section" id="history">
+      <div class="section-head">
+        <span class="section-label">History · Civilizations</span>
+        <span class="section-rule"></span>
+        <span class="section-count">0</span>
+      </div>
+      <p class="placeholder">Coming soon — timelines, historical maps, and civilization notes.</p>
+    </section>
+
+    <!-- ============ TOEIC ============ -->
+    <section class="section" id="toeic">
+      <div class="section-head">
+        <span class="section-label">TOEIC · 950</span>
+        <span class="section-rule"></span>
+        <span class="section-count">0</span>
+      </div>
+      <p class="placeholder">Coming soon — grammar triggers and paraphrase-mapping drills.</p>
+    </section>
+
+    <!-- ============ Notes ============ -->
+    <section class="section" id="notes">
+      <div class="section-head">
+        <span class="section-label">Notes</span>
+        <span class="section-rule"></span>
+        <span class="section-count">0</span>
+      </div>
+      <p class="placeholder">Coming soon — short thoughts and tools.</p>
+    </section>
 
     <footer>
       <span>building in public</span>
