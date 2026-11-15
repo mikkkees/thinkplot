@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>thinkplotlab</title>
+    <link>https://mikkkees.github.io/thinkplot/</link>
+    <description>Public experiments in quant investing, economics, and history, built with AI.</description>
+    <language>en</language>
+    <atom:link href="https://mikkkees.github.io/thinkplot/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Floor first — cap the downside, leave the lid open</title>
+      <link>https://mikkkees.github.io/thinkplot/floor.html</link>
+      <guid>https://mikkkees.github.io/thinkplot/floor.html</guid>
+      <pubDate>Sun, 15 Nov 2026 12:00:00 +0900</pubDate>
+      <category>Philosophy</category>
+      <description>Barbell part two: I can't predict how high things go, but I can decide how far they're allowed to fall. Why the floor comes first, and why the lid stays off.</description>
+    </item>
+    <item>
+      <title>One commit — auditing the pipeline behind this blog</title>
+      <link>https://mikkkees.github.io/thinkplot/pipeline.html</link>
+      <guid>https://mikkkees.github.io/thinkplot/pipeline.html</guid>
+      <pubDate>Sun, 15 Nov 2026 00:00:00 +0900</pubDate>
+      <category>Philosophy</category>
+      <description>Part two of the barbell: I said the only human step was one commit. Then I actually ran the pipeline and counted.</description>
+    </item>
+    <item>
+      <title>Nothing in the middle — the barbell behind this blog</title>
+      <link>https://mikkkees.github.io/thinkplot/barbell.html</link>
+      <guid>https://mikkkees.github.io/thinkplot/barbell.html</guid>
+      <pubDate>Fri, 03 Jul 2026 00:00:00 +0900</pubDate>
+      <category>Philosophy</category>
+      <description>One end that can't break, one end that's allowed to blow up, nothing in between — the barbell rule behind every post on thinkplotlab.</description>
+    </item>
+    <item>
+      <title>Same return, half the drawdown — HAA-Simple backtest</title>
+      <link>https://mikkkees.github.io/thinkplot/haa-backtest.html</link>
+      <guid>https://mikkkees.github.io/thinkplot/haa-backtest.html</guid>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 +0900</pubDate>
+      <category>Quant</category>
+      <description>Keeping almost all of the market's return while cutting the drawdown to less than half — a backtest of the HAA-Simple rule.</description>
+    </item>
+  </channel>
+</rss>

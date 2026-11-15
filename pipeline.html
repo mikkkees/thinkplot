@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One commit — auditing the pipeline behind this blog · thinkplotlab</title>
+<meta name="description" content="Part two of the barbell: I said the only human step was one commit. Then I actually ran the pipeline and counted.">
+<link rel="canonical" href="https://mikkkees.github.io/thinkplot/pipeline.html">
+<link rel="alternate" type="application/rss+xml" title="thinkplotlab" href="./feed.xml">
+<meta property="og:site_name" content="thinkplotlab">
+<meta property="og:title" content="One commit — auditing the pipeline behind this blog · thinkplotlab">
+<meta property="og:description" content="Part two of the barbell: I said the only human step was one commit. Then I actually ran the pipeline and counted.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mikkkees.github.io/thinkplot/pipeline.html">
+<meta property="og:image" content="https://mikkkees.github.io/thinkplot/assets/og/pipeline.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="One commit — auditing the pipeline behind this blog · thinkplotlab">
+<meta name="twitter:description" content="Part two of the barbell: I said the only human step was one commit. Then I actually ran the pipeline and counted.">
+<meta name="twitter:image" content="https://mikkkees.github.io/thinkplot/assets/og/pipeline.png">
+<meta property="article:published_time" content="2026-11-15">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/base.css">
+<link rel="stylesheet" href="./assets/post.css">
+<style>
+  /* pipeline diagram */
+  .pipe svg{width:100%;height:auto;display:block;overflow:visible}
+  .pp-node{fill:var(--panel);stroke:var(--line);stroke-width:1.2}
+  .pp-auto{stroke:var(--cyan);stroke-width:1.6}
+  .pp-human{stroke:var(--amber);stroke-width:1.6}
+  .pp-human-fill{fill:rgba(var(--amber-rgb),0.08)}
+  .pp-lab{font-family:var(--mono);font-size:12px;fill:var(--ink);letter-spacing:0.04em}
+  .pp-sub{font-family:var(--mono);font-size:9.5px;fill:var(--faint);letter-spacing:0.02em}
+  .pp-arrow{stroke:rgba(var(--ink-rgb),0.35);stroke-width:1.4;fill:none}
+  .pp-key{font-family:var(--mono);font-size:10.5px;letter-spacing:0.08em}
+  .pp-key.h{fill:var(--amber)}
+  .pp-key.a{fill:var(--cyan)}
+  .pipe .pp-narrow{display:none}
+  @media (max-width:560px){.pipe .pp-wide{display:none}.pipe .pp-narrow{display:block;max-width:360px;margin:0 auto}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="topbar">
+      <a class="mark" href="./index.html">thinkplot<b>lab</b></a>
+      <a class="home" href="./index.html">← Home</a>
+    </nav>
+
+    <div class="langbar">
+      <span class="lbl">Bilingual</span>
+      <a href="#en">English</a>
+      <a href="#ko">한국어</a>
+    </div>
+
+    <!-- ============================ ENGLISH ============================ -->
+    <article id="en" lang="en">
+      <p class="cat">Philosophy · Barbell side note</p>
+      <h1>One commit</h1>
+      <p class="meta"><span>2026.11.15</span> &nbsp;·&nbsp; Auditing the pipeline behind this blog &nbsp;·&nbsp; 5 min read</p>
+
+      <p class="lede">In the <a href="./barbell.html">first barbell post</a> I wrote that publishing here runs like my trading system: learn → write it down → push → the site updates itself. <em>"The only human step is one commit."</em> It was a nice line. This week I ran the pipeline end to end and counted how many steps actually needed me. It wasn't one.</p>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="k">Human steps — claimed</div>
+          <div class="v"><span class="good">1</span></div>
+          <div class="sub">"one commit" — barbell post, July</div>
+        </div>
+        <div class="stat">
+          <div class="k">Human steps — counted</div>
+          <div class="v"><span class="up">4</span></div>
+          <div class="sub">ask · pick · commit · merge</div>
+        </div>
+      </div>
+
+      <h2><span class="n">01</span>It started with a lazy question</h2>
+      <p>No plan, no backlog. I opened a session with an AI agent pointed at this site's repository and typed three words: <em>"what should I try?"</em></p>
+      <p>That question is the cheapest option I own. It costs ten seconds. The agent read the repo, noticed what I'd stopped noticing — a stale draft homepage nobody linked to, the same stylesheet copy-pasted into every page, no share previews, no feed — and came back with seven options ranked by effort. I said <strong>"do 1, 2, 3."</strong> That was the entire planning phase.</p>
+      <p>Part one said <span class="hl">a perfect plan is the most elegant excuse for never starting.</span> The inverse turns out to hold too: a sloppy question asked to the right tool is a perfectly good start.</p>
+
+      <h2><span class="n">02</span>The diff was mostly subtraction</h2>
+      <p>The cleanup came out to <code>+224 / −642</code> lines. Almost three lines deleted for every line added. The old draft homepage went (−393 on its own), and the styling that every page carried separately collapsed into two shared files.</p>
+      <p>That ratio is the barbell again, just in code. The value wasn't in what got built; it was in <strong>removing the middle</strong> — the half-maintained duplicate that was neither in use nor gone, the copy of a style that would drift the next time I changed a color. Unused things aren't free. They're small, silent liabilities.</p>
+
+      <h2><span class="n">03</span>Making each post cheaper to travel</h2>
+      <p>The third item was distribution plumbing: a share card for every post, a sitemap, an RSS feed. None of it is visible on the page itself. All of it lowers the cost of one post reaching one more reader — a link pasted into a chat now arrives with a title and an image instead of a bare URL.</p>
+      <p>This is the convex end doing its job. I can't make a post go far. I can only remove friction so that <em>if</em> it's going to travel, nothing stops it. Floor stays shallow; the lid stays off.</p>
+
+      <figure>
+        <div class="chart pipe">
+          <div class="chart-h">The pipeline, as it actually ran</div>
+          <div class="chart-sub">Amber boxes needed me. Teal boxes ran without me — mostly.</div>
+          <svg class="pp-wide" viewBox="0 0 680 230" role="img" aria-label="A pipeline of seven steps: learn, ask, pick, commit, push, merge, live. Four of them need a human.">
+            <rect class="pp-node pp-auto" x="20" y="30" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="92.5" y="57" text-anchor="middle">LEARN</text>
+            <text class="pp-sub" x="92.5" y="75" text-anchor="middle">study · backtests</text>
+            <rect class="pp-node pp-human pp-human-fill" x="185" y="30" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="57" text-anchor="middle">ASK</text>
+            <text class="pp-sub" x="257.5" y="75" text-anchor="middle">"what should I try?"</text>
+            <rect class="pp-node pp-human pp-human-fill" x="350" y="30" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="422.5" y="57" text-anchor="middle">PICK</text>
+            <text class="pp-sub" x="422.5" y="75" text-anchor="middle">choose 1, 2, 3</text>
+            <rect class="pp-node pp-human pp-human-fill" x="515" y="30" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="587.5" y="57" text-anchor="middle">COMMIT</text>
+            <text class="pp-sub" x="587.5" y="75" text-anchor="middle">one commit</text>
+            <rect class="pp-node pp-auto" x="515" y="130" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="587.5" y="157" text-anchor="middle">PUSH</text>
+            <text class="pp-sub" x="587.5" y="175" text-anchor="middle">auth · 403</text>
+            <rect class="pp-node pp-human pp-human-fill" x="350" y="130" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="422.5" y="157" text-anchor="middle">MERGE</text>
+            <text class="pp-sub" x="422.5" y="175" text-anchor="middle">review the PR</text>
+            <rect class="pp-node pp-auto" x="185" y="130" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="157" text-anchor="middle">LIVE</text>
+            <text class="pp-sub" x="257.5" y="175" text-anchor="middle">site rebuilds</text>
+            <path class="pp-arrow" d="M168 61 L182 61 M177 65 L182 61 L177 57"/>
+            <path class="pp-arrow" d="M333 61 L347 61 M342 65 L347 61 L342 57"/>
+            <path class="pp-arrow" d="M498 61 L512 61 M507 65 L512 61 L507 57"/>
+            <path class="pp-arrow" d="M588 95 L588 127 M584 122 L588 127 L592 122"/>
+            <path class="pp-arrow" d="M512 161 L498 161 M503 157 L498 161 L503 165"/>
+            <path class="pp-arrow" d="M347 161 L333 161 M338 157 L333 161 L338 165"/>
+            <rect class="pp-node pp-human pp-human-fill" x="20" y="146" width="12" height="12" rx="3"/><text class="pp-key h" x="40" y="156">HUMAN STEP</text>
+            <rect class="pp-node pp-auto" x="20" y="170" width="12" height="12" rx="3"/><text class="pp-key a" x="40" y="180">RUNS ON ITS OWN</text>
+          </svg>
+          <svg class="pp-narrow" viewBox="0 0 340 420" role="img" aria-label="A pipeline of seven steps: learn, ask, pick, commit, push, merge, live. Four of them need a human.">
+            <rect class="pp-node pp-auto" x="10" y="10" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="82.5" y="37" text-anchor="middle">LEARN</text>
+            <text class="pp-sub" x="82.5" y="55" text-anchor="middle">study · backtests</text>
+            <rect class="pp-node pp-human pp-human-fill" x="185" y="10" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="37" text-anchor="middle">ASK</text>
+            <text class="pp-sub" x="257.5" y="55" text-anchor="middle">"what should I try?"</text>
+            <rect class="pp-node pp-human pp-human-fill" x="185" y="110" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="137" text-anchor="middle">PICK</text>
+            <text class="pp-sub" x="257.5" y="155" text-anchor="middle">choose 1, 2, 3</text>
+            <rect class="pp-node pp-human pp-human-fill" x="10" y="110" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="82.5" y="137" text-anchor="middle">COMMIT</text>
+            <text class="pp-sub" x="82.5" y="155" text-anchor="middle">one commit</text>
+            <rect class="pp-node pp-auto" x="10" y="210" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="82.5" y="237" text-anchor="middle">PUSH</text>
+            <text class="pp-sub" x="82.5" y="255" text-anchor="middle">auth · 403</text>
+            <rect class="pp-node pp-human pp-human-fill" x="185" y="210" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="237" text-anchor="middle">MERGE</text>
+            <text class="pp-sub" x="257.5" y="255" text-anchor="middle">review the PR</text>
+            <rect class="pp-node pp-auto" x="185" y="310" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="337" text-anchor="middle">LIVE</text>
+            <text class="pp-sub" x="257.5" y="355" text-anchor="middle">site rebuilds</text>
+            <path class="pp-arrow" d="M158 41 L182 41 M177 45 L182 41 L177 37"/>
+            <path class="pp-arrow" d="M258 75 L258 107 M254 102 L258 107 L262 102"/>
+            <path class="pp-arrow" d="M182 141 L158 141 M163 137 L158 141 L163 145"/>
+            <path class="pp-arrow" d="M82 175 L82 207 M78 202 L82 207 L86 202"/>
+            <path class="pp-arrow" d="M158 241 L182 241 M177 245 L182 241 L177 237"/>
+            <path class="pp-arrow" d="M258 275 L258 307 M254 302 L258 307 L262 302"/>
+            <rect class="pp-node pp-human pp-human-fill" x="14" y="330" width="12" height="12" rx="3"/><text class="pp-key h" x="34" y="340">HUMAN STEP</text>
+            <rect class="pp-node pp-auto" x="14" y="354" width="12" height="12" rx="3"/><text class="pp-key a" x="34" y="364">RUNS ON ITS OWN</text>
+          </svg>
+          <figcaption>Four human steps, not one. But each is seconds long and none needs willpower — only a decision.</figcaption>
+        </div>
+      </figure>
+
+      <h2><span class="n">04</span>Where the pipe broke: a 403</h2>
+      <p>Everything was committed and ready. Then the push failed: <code>403</code>. The agent had lost its permission to write to the repository. Nothing I'd written was wrong; one link in the chain simply wasn't connected.</p>
+      <p>Here's the part I want to keep. <strong>A pipeline fails loudly, and in one place.</strong> The error named the exact step and the exact fix: reconnect access. I did, typed <em>"does it work now?"</em>, and it went through. Compare that with willpower failing. Willpower doesn't throw an error. It just quietly doesn't show up on Tuesday, and you find out a year later when the repo is still empty.</p>
+      <p>A system you can debug beats a habit you can only hope for.</p>
+
+      <h2><span class="n">05</span>The audit: four steps, zero willpower</h2>
+      <p>So the honest count is four human steps: <strong>ask, pick, commit, merge.</strong> Part one undersold it. But look at what kind of steps they are. None of them is "find the energy to write tonight." Each one is a decision that takes seconds, made when a tool puts the options in front of me.</p>
+      <p>That's the real claim, corrected: the goal was never zero human steps. It's <span class="hl">zero steps that depend on mood</span>. Decisions are cheap. Motivation is expensive and unreliable. Push everything you can from the second column into the first.</p>
+      <ul>
+        <li><strong>Still manual:</strong> adding each new post to the feed and sitemap by hand. That's a step that will eventually be forgotten — so it's next on the list to automate.</li>
+        <li><strong>Kill switch unchanged:</strong> the moment any of this starts eating study time, sleep, or the day job, it stops.</li>
+      </ul>
+
+      <div class="note"><strong>Byproduct check.</strong> This post cost nothing extra to write. It's the log of a maintenance session I was going to run anyway — the same rule as part one: never do anything <em>for</em> the blog.</div>
+
+      <p>One commit was a slogan. Four decisions is the real system, and it's still cheap enough to keep the option alive. Which is all the barbell ever asked for.</p>
+    </article>
+
+    <div class="lang-divider"><span>한국어 · Korean</span></div>
+
+    <!-- ============================ KOREAN ============================ -->
+    <article id="ko" lang="ko">
+      <p class="cat">Philosophy · Barbell side note</p>
+      <h1>커밋 하나</h1>
+      <p class="meta"><span>2026.11.15</span> &nbsp;·&nbsp; 이 블로그 파이프라인 감사 &nbsp;·&nbsp; 5분</p>
+
+      <p class="lede"><a href="./barbell.html">바벨 1편</a>에서 이렇게 썼다. 발행은 자동매매처럼 돈다 — 배우고 → 정리하고 → 올리면 → 사이트가 알아서 갱신된다. <em>"사람이 하는 일은 커밋 하나다."</em> 멋진 문장이었다. 이번 주에 그 파이프라인을 처음부터 끝까지 실제로 돌려보고, 내 손이 필요한 단계를 세어봤다. 하나가 아니었다.</p>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="k">사람 단계 — 주장</div>
+          <div class="v"><span class="good">1</span></div>
+          <div class="sub">"커밋 하나" — 바벨 1편, 7월</div>
+        </div>
+        <div class="stat">
+          <div class="k">사람 단계 — 실측</div>
+          <div class="v"><span class="up">4</span></div>
+          <div class="sub">질문 · 선택 · 커밋 · 머지</div>
+        </div>
+      </div>
+
+      <h2><span class="n">01</span>게으른 질문 하나로 시작했다</h2>
+      <p>계획도, 할 일 목록도 없었다. 이 사이트 저장소에 연결된 AI 에이전트를 열고 네 글자를 쳤다. <em>"뭘해보지?"</em></p>
+      <p>이 질문은 내가 가진 가장 싼 옵션이다. 10초면 된다. 에이전트는 저장소를 훑고, 내가 더 이상 안 보던 것들을 짚어냈다 — 아무 데서도 링크되지 않은 옛 홈페이지 초안, 페이지마다 복붙된 똑같은 스타일, 공유 미리보기 없음, 피드 없음. 그리고 노력 대비 효과 순으로 일곱 가지를 내밀었다. 나는 <strong>"1, 2, 3 진행"</strong>이라고 답했다. 기획 단계는 그게 전부였다.</p>
+      <p>1편에서 <span class="hl">완벽한 계획은 시작하지 않아도 되는 가장 우아한 핑계</span>라고 썼다. 그 반대도 성립했다. 맞는 도구에 던진 대충의 질문은, 충분히 좋은 시작이다.</p>
+
+      <h2><span class="n">02</span>변경의 대부분은 빼기였다</h2>
+      <p>정리 결과는 <code>+224 / −642</code>줄. 한 줄 넣을 때 거의 세 줄을 지웠다. 옛 홈페이지 초안이 혼자 −393줄이었고, 페이지마다 따로 들고 있던 스타일은 공유 파일 두 개로 합쳐졌다.</p>
+      <p>이 비율도 바벨이다, 코드 버전일 뿐. 가치는 새로 만든 데 있지 않고 <strong>가운데를 덜어낸 데</strong> 있었다 — 쓰지도 않고 지우지도 않은 반쯤 관리되는 사본, 다음에 색 하나 바꾸면 어긋나기 시작할 스타일 복사본. 안 쓰는 것은 공짜가 아니다. 작고 조용한 부채다.</p>
+
+      <h2><span class="n">03</span>글 한 편이 멀리 가는 비용 낮추기</h2>
+      <p>세 번째는 유통 배관이었다. 글마다 공유 카드, 사이트맵, RSS 피드. 페이지에서는 하나도 안 보인다. 하지만 전부 글 한 편이 독자 한 명에게 더 닿는 비용을 낮춘다 — 이제 카톡에 링크를 붙이면 맨 주소 대신 제목과 이미지가 같이 간다.</p>
+      <p>옵션 축이 제 할 일을 하는 장면이다. 글을 멀리 보내는 건 내가 못 한다. 내가 할 수 있는 건 마찰을 없애서, <em>갈 글이라면</em> 아무것도 막지 않게 하는 것뿐이다. 바닥은 얕게, 뚜껑은 열어둔 채로.</p>
+
+      <figure>
+        <div class="chart pipe">
+          <div class="chart-h">실제로 돌아간 파이프라인</div>
+          <div class="chart-sub">주황 칸은 내가 했다. 청록 칸은 나 없이 돌았다 — 대체로는.</div>
+          <svg class="pp-wide" viewBox="0 0 680 230" role="img" aria-label="일곱 단계 파이프라인: 배움, 질문, 선택, 커밋, 푸시, 머지, 반영. 그중 네 단계는 사람이 한다.">
+            <rect class="pp-node pp-auto" x="20" y="30" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="92.5" y="57" text-anchor="middle">배움</text>
+            <text class="pp-sub" x="92.5" y="75" text-anchor="middle">공부 · 백테스트</text>
+            <rect class="pp-node pp-human pp-human-fill" x="185" y="30" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="57" text-anchor="middle">질문</text>
+            <text class="pp-sub" x="257.5" y="75" text-anchor="middle">"뭘 해보지?"</text>
+            <rect class="pp-node pp-human pp-human-fill" x="350" y="30" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="422.5" y="57" text-anchor="middle">선택</text>
+            <text class="pp-sub" x="422.5" y="75" text-anchor="middle">1, 2, 3 진행</text>
+            <rect class="pp-node pp-human pp-human-fill" x="515" y="30" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="587.5" y="57" text-anchor="middle">커밋</text>
+            <text class="pp-sub" x="587.5" y="75" text-anchor="middle">커밋 하나</text>
+            <rect class="pp-node pp-auto" x="515" y="130" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="587.5" y="157" text-anchor="middle">푸시</text>
+            <text class="pp-sub" x="587.5" y="175" text-anchor="middle">인증 · 403</text>
+            <rect class="pp-node pp-human pp-human-fill" x="350" y="130" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="422.5" y="157" text-anchor="middle">머지</text>
+            <text class="pp-sub" x="422.5" y="175" text-anchor="middle">PR 확인</text>
+            <rect class="pp-node pp-auto" x="185" y="130" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="157" text-anchor="middle">반영</text>
+            <text class="pp-sub" x="257.5" y="175" text-anchor="middle">사이트 갱신</text>
+            <path class="pp-arrow" d="M168 61 L182 61 M177 65 L182 61 L177 57"/>
+            <path class="pp-arrow" d="M333 61 L347 61 M342 65 L347 61 L342 57"/>
+            <path class="pp-arrow" d="M498 61 L512 61 M507 65 L512 61 L507 57"/>
+            <path class="pp-arrow" d="M588 95 L588 127 M584 122 L588 127 L592 122"/>
+            <path class="pp-arrow" d="M512 161 L498 161 M503 157 L498 161 L503 165"/>
+            <path class="pp-arrow" d="M347 161 L333 161 M338 157 L333 161 L338 165"/>
+            <rect class="pp-node pp-human pp-human-fill" x="20" y="146" width="12" height="12" rx="3"/><text class="pp-key h" x="40" y="156">사람이 하는 단계</text>
+            <rect class="pp-node pp-auto" x="20" y="170" width="12" height="12" rx="3"/><text class="pp-key a" x="40" y="180">알아서 도는 단계</text>
+          </svg>
+          <svg class="pp-narrow" viewBox="0 0 340 420" role="img" aria-label="일곱 단계 파이프라인: 배움, 질문, 선택, 커밋, 푸시, 머지, 반영. 그중 네 단계는 사람이 한다.">
+            <rect class="pp-node pp-auto" x="10" y="10" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="82.5" y="37" text-anchor="middle">배움</text>
+            <text class="pp-sub" x="82.5" y="55" text-anchor="middle">공부 · 백테스트</text>
+            <rect class="pp-node pp-human pp-human-fill" x="185" y="10" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="37" text-anchor="middle">질문</text>
+            <text class="pp-sub" x="257.5" y="55" text-anchor="middle">"뭘 해보지?"</text>
+            <rect class="pp-node pp-human pp-human-fill" x="185" y="110" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="137" text-anchor="middle">선택</text>
+            <text class="pp-sub" x="257.5" y="155" text-anchor="middle">1, 2, 3 진행</text>
+            <rect class="pp-node pp-human pp-human-fill" x="10" y="110" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="82.5" y="137" text-anchor="middle">커밋</text>
+            <text class="pp-sub" x="82.5" y="155" text-anchor="middle">커밋 하나</text>
+            <rect class="pp-node pp-auto" x="10" y="210" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="82.5" y="237" text-anchor="middle">푸시</text>
+            <text class="pp-sub" x="82.5" y="255" text-anchor="middle">인증 · 403</text>
+            <rect class="pp-node pp-human pp-human-fill" x="185" y="210" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="237" text-anchor="middle">머지</text>
+            <text class="pp-sub" x="257.5" y="255" text-anchor="middle">PR 확인</text>
+            <rect class="pp-node pp-auto" x="185" y="310" width="145" height="62" rx="8"/>
+            <text class="pp-lab" x="257.5" y="337" text-anchor="middle">반영</text>
+            <text class="pp-sub" x="257.5" y="355" text-anchor="middle">사이트 갱신</text>
+            <path class="pp-arrow" d="M158 41 L182 41 M177 45 L182 41 L177 37"/>
+            <path class="pp-arrow" d="M258 75 L258 107 M254 102 L258 107 L262 102"/>
+            <path class="pp-arrow" d="M182 141 L158 141 M163 137 L158 141 L163 145"/>
+            <path class="pp-arrow" d="M82 175 L82 207 M78 202 L82 207 L86 202"/>
+            <path class="pp-arrow" d="M158 241 L182 241 M177 245 L182 241 L177 237"/>
+            <path class="pp-arrow" d="M258 275 L258 307 M254 302 L258 307 L262 302"/>
+            <rect class="pp-node pp-human pp-human-fill" x="14" y="330" width="12" height="12" rx="3"/><text class="pp-key h" x="34" y="340">사람이 하는 단계</text>
+            <rect class="pp-node pp-auto" x="14" y="354" width="12" height="12" rx="3"/><text class="pp-key a" x="34" y="364">알아서 도는 단계</text>
+          </svg>
+          <figcaption>사람 단계는 하나가 아니라 넷. 하지만 전부 몇 초짜리고, 의지가 아니라 결정만 필요하다.</figcaption>
+        </div>
+      </figure>
+
+      <h2><span class="n">04</span>배관이 터진 곳: 403</h2>
+      <p>전부 커밋까지 끝났다. 그리고 푸시가 실패했다. <code>403</code>. 에이전트가 저장소에 쓸 권한을 잃은 상태였다. 내가 쓴 건 아무 문제 없었다. 사슬의 고리 하나가 연결이 안 돼 있었을 뿐이다.</p>
+      <p>남기고 싶은 건 이 부분이다. <strong>파이프라인은 시끄럽게, 한 곳에서 실패한다.</strong> 에러가 정확한 단계와 정확한 해법을 짚었다: 권한 다시 연결. 연결하고 <em>"이제 되나"</em>라고 치니 올라갔다. 의지가 실패하는 모습과 비교해보면 차이가 선명하다. 의지는 에러를 던지지 않는다. 그냥 화요일에 조용히 안 나타나고, 1년 뒤 저장소가 여전히 비어 있는 걸 보고서야 알게 된다.</p>
+      <p>디버깅할 수 있는 시스템이, 바라기만 할 수 있는 습관보다 낫다.</p>
+
+      <h2><span class="n">05</span>감사 결과: 사람 단계 넷, 의지 0</h2>
+      <p>정직하게 세면 사람 단계는 넷이다. <strong>질문, 선택, 커밋, 머지.</strong> 1편은 과소평가였다. 그런데 그 단계들이 어떤 종류인지 보자. "오늘 밤 쓸 기운을 내기" 같은 건 하나도 없다. 전부 도구가 선택지를 눈앞에 놓아줬을 때 몇 초 만에 내리는 결정이다.</p>
+      <p>그래서 주장을 이렇게 고친다. 목표는 사람 단계 0이 아니었다. <span class="hl">기분에 기대는 단계 0</span>이다. 결정은 싸다. 동기는 비싸고 믿을 수 없다. 두 번째 칸에 있는 걸 할 수 있는 만큼 첫 번째 칸으로 옮긴다.</p>
+      <ul>
+        <li><strong>아직 수동인 것:</strong> 새 글을 피드와 사이트맵에 손으로 추가하기. 언젠가 반드시 빼먹을 단계다 — 그래서 다음 자동화 1순위다.</li>
+        <li><strong>킬스위치는 그대로:</strong> 이 중 무엇이든 공부 시간, 잠, 본업을 갉아먹기 시작하면 멈춘다.</li>
+      </ul>
+
+      <div class="note"><strong>부산물 체크.</strong> 이 글은 추가 비용 없이 나왔다. 어차피 할 사이트 정비 세션의 기록이다 — 1편과 같은 규칙. 블로그를 '위해서' 아무것도 하지 않는다.</div>
+
+      <p>커밋 하나는 슬로건이었다. 결정 넷이 실제 시스템이고, 그래도 옵션을 살려둘 만큼 충분히 싸다. 바벨이 요구한 건 처음부터 그게 전부였다.</p>
+    </article>
+
+    <div class="comments">
+      <script src="https://giscus.app/client.js"
+              data-repo="mikkkees/thinkplot"
+              data-repo-id="R_kgDOO3jV4Q"
+              data-category="Announcements"
+              data-category-id="DIC_kwDOO3jV4c4DAbMW"
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="0"
+              data-input-position="top"
+              data-theme="light"
+              data-lang="ko"
+              data-loading="lazy"
+              crossorigin="anonymous"
+              async>
+      </script>
+    </div>
+
+    <div class="endrule"></div>
+    <footer>
+      <a href="./index.html">← thinkplotlab</a>
+      <span class="sep">/</span>
+      <span>building in public · 2026</span>
+      <span class="sep">/</span>
+      <a href="https://github.com/mikkkees">github</a>
+      <span class="sep">/</span>
+      <a href="./feed.xml">rss</a>
+    </footer>
+  </div>
+</body>
+</html>
