@@ -7,6 +7,14 @@
     <language>en</language>
     <atom:link href="https://mikkkees.github.io/thinkplot/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>One commit — auditing the pipeline behind this blog</title>
+      <link>https://mikkkees.github.io/thinkplot/pipeline.html</link>
+      <guid>https://mikkkees.github.io/thinkplot/pipeline.html</guid>
+      <pubDate>Sun, 15 Nov 2026 00:00:00 +0900</pubDate>
+      <category>Philosophy</category>
+      <description>Part two of the barbell: I said the only human step was one commit. Then I actually ran the pipeline and counted.</description>
+    </item>
+    <item>
       <title>Nothing in the middle — the barbell behind this blog</title>
       <link>https://mikkkees.github.io/thinkplot/barbell.html</link>
       <guid>https://mikkkees.github.io/thinkplot/barbell.html</guid>
