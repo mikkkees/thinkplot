@@ -7,6 +7,14 @@
     <language>en</language>
     <atom:link href="https://mikkkees.github.io/thinkplot/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>Floor first — cap the downside, leave the lid open</title>
+      <link>https://mikkkees.github.io/thinkplot/floor.html</link>
+      <guid>https://mikkkees.github.io/thinkplot/floor.html</guid>
+      <pubDate>Sun, 15 Nov 2026 12:00:00 +0900</pubDate>
+      <category>Philosophy</category>
+      <description>Barbell part two: I can't predict how high things go, but I can decide how far they're allowed to fall. Why the floor comes first, and why the lid stays off.</description>
+    </item>
+    <item>
       <title>One commit — auditing the pipeline behind this blog</title>
       <link>https://mikkkees.github.io/thinkplot/pipeline.html</link>
       <guid>https://mikkkees.github.io/thinkplot/pipeline.html</guid>
